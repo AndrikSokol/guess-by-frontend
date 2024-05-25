@@ -1,22 +1,25 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Oswald } from "next/font/google";
 import "./globals.css";
+import { AppProvider } from "./components/appProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const oswald = Oswald({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Geo Game",
-  description: "Simple game to guess a place in Belarus",
+  description: "Simple game to guess a place in Belarus"
 };
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <AppProvider>
+      <html lang="en">
+        <body className={oswald.className}>{children}</body>
+      </html>
+    </AppProvider>
   );
 }

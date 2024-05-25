@@ -1,33 +1,38 @@
 import { create } from "zustand";
 
+type Coordinations = { lat: number; lng: number };
+
 type State = {
-  round: number;
-  timer: number;
-  isEnded: boolean;
+  marker: Coordinations;
+  location: Coordinations;
 };
 
 type Actions = {
-  incrementRound: () => void;
-  resetRound: () => void;
-  setEndedRound: () => void;
-  resetEnded: () => void;
+  setMarker: (data: Coordinations) => void;
+  setLocation: (data: Coordinations) => void;
+  clearState: () => void; // Define clearState action
 };
 
 export const useRoundStore = create<State & Actions>((set) => ({
-  round: 0,
-  timer: 60,
-  isEnded: false,
-  incrementRound: () => set((state) => ({ round: state.round + 1 })),
-  resetRound: () => set({ round: 0 }),
-  setEndedRound: () => set({ isEnded: true }),
-  resetEnded: () => set({ isEnded: false }),
+  marker: { lat: 0, lng: 0 },
+  location: { lat: 0, lng: 0 },
+  setMarker: (data) => set((state) => ({ ...state, marker: data })),
+  setLocation: (data) => set((state) => ({ ...state, location: data })),
+  clearState: () =>
+    set({ marker: { lat: 0, lng: 0 }, location: { lat: 0, lng: 0 } }) // Implement clearState action
 }));
 
-type UserStore = {
-  user: IUser;
-  setUser: (newUser: IUser) => void;
+type State2 = {
+  avatarPath: string;
 };
-export const useUserStore = create<UserStore>((set) => ({
-  user: {} as IUser,
-  setUser: (newUser: IUser) => set({ user: newUser }),
+
+type Actions2 = {
+  setAvatarPath: (data: string) => void;
+  clearState: () => void;
+};
+
+export const useUserAvatarStore = create<State2 & Actions2>((set) => ({
+  avatarPath: "",
+  setAvatarPath: (data) => set((state) => ({ ...state, avatarPath: data })),
+  clearState: () => set({ avatarPath: "" }) // Implement clearState action
 }));

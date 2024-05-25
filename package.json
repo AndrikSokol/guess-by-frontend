@@ -6,19 +6,24 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "api:generate": "orval"
   },
   "dependencies": {
+    "@next/env": "^14.2.3",
     "@splinetool/react-spline": "^2.2.6",
     "@splinetool/runtime": "^1.0.51",
+    "@tanstack/react-query": "^5.36.2",
     "@types/google.maps": "^3.55.1",
     "@vis.gl/react-google-maps": "^0.6.1",
     "axios": "^1.6.8",
     "clsx": "^2.1.1",
     "next": "14.1.0",
+    "rc-slider": "^10.6.2",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.0",
+    "react-toastify": "^10.0.5",
     "tailwind-merge": "^2.3.0",
     "zustand": "^4.5.0"
   },
@@ -29,6 +34,7 @@
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
+    "orval": "^6.29.1",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
     "typescript": "^5"
