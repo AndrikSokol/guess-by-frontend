@@ -3,10 +3,10 @@ const nextConfig = {
   images: {
     domains: ["localhost"]
   },
-  i18n: {
-    locales: ["en-US", "ru"],
-    defaultLocale: "en-US"
-  },
+  // i18n: {
+  //   locales: ["en", "ru"],
+  //   defaultLocale: "en"
+  // },
   rewrites() {
     return [
       //   {

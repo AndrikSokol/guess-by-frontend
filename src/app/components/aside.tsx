@@ -35,10 +35,10 @@ export const Aside = () => {
         <LogoutButton />
       </div>
 
-      <div className="flex   items-center justify-center">
+      {/* <div className="flex   items-center justify-center">
         <PlanetIcon className="w-8 h-8 cursor-pointer " />
         <div className="cursor-pointer">EN</div>
-      </div>
+      </div> */}
     </aside>
   );
 };

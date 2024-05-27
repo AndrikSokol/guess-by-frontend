@@ -68,11 +68,23 @@ export class Api {
     return data;
   }
 
-  public static async createRoom(dto: any) {
-    const { data } = await this.apiInstance.post(API_ROUTES.ROOM, dto);
+  public static async createRoom() {
+    const { data } = await this.apiInstance.post(API_ROUTES.ROOM);
     return data;
   }
 
+  public static async getRoom(link: string) {
+    const { data } = await this.apiInstance.get(`${API_ROUTES.ROOM}/${link}`);
+    return data;
+  }
+
+  public static async updateRoom(dto: any) {
+    const { data } = await this.apiInstance.patch(
+      `${API_ROUTES.ROOM}/${dto.link}`,
+      { params: { level: dto.level } }
+    );
+    return data;
+  }
   public static async createGame(dto: any) {
     const { data } = await this.apiInstance.post(API_ROUTES.GAME, dto);
     return data;
