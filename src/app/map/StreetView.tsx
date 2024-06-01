@@ -28,7 +28,6 @@ interface IPosition {
 export const StreetView: FC<StreetViewProps> = ({ places, link }) => {
   const [divContainer, setDivContainer] = useState<HTMLDivElement | null>(null);
   const [currentPlace, setCurrentPlace] = useState<IPlace>({} as IPlace);
-  // const { round, resetRound } = useRoundStore();
 
   const { data: game, isPending } = useGameQuery(link);
 
@@ -43,6 +42,21 @@ export const StreetView: FC<StreetViewProps> = ({ places, link }) => {
     setCurrentPlace(places[game.round - 1]);
   }, [game.round]);
 
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.innerHTML = `
+       .gm-iv-address {
+        display: none; /* Hide the address link */
+      }
+     
+    `;
+    document.head.appendChild(style);
+
+    // Cleanup on unmount
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
   if (isPending) {
     return <UiPageSpinner />;
   }

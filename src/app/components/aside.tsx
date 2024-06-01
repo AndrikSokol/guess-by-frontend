@@ -20,9 +20,9 @@ export const Aside = () => {
         <li>
           <UiLink href="/room">Single game</UiLink>
         </li>
-        <li>
+        {/* <li>
           <UiLink href="/">Multiplayer</UiLink>
-        </li>
+        </li> */}
         <li>
           <UiLink href="/leaderboard">Leaderboard</UiLink>
         </li>

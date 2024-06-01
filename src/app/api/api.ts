@@ -81,7 +81,7 @@ export class Api {
   public static async updateRoom(dto: any) {
     const { data } = await this.apiInstance.patch(
       `${API_ROUTES.ROOM}/${dto.link}`,
-      { params: { level: dto.level } }
+      { level: dto.level }
     );
     return data;
   }

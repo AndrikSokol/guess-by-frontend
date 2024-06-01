@@ -62,9 +62,6 @@ export const LoginForm = () => {
           ...register("password", { required: true })
         }}
       />
-      {/* <Link href={ROUTES.FORGOT_PASSWORD} className=" inline-block underline">
-        Forgot a password?
-      </Link>/?modal=about */}
       <Link
         href={`${ROUTES.HOME}/?modal=forgot-password`}
         className=" inline-block underline"

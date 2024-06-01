@@ -31,7 +31,8 @@ type ActiveCard = {
 };
 
 const Page = ({ params }: { params: { slug: string } }) => {
-  const link = params.slug[0];
+  const link = params.slug;
+
   const queryClient = useQueryClient();
   const router = useRouter();
   const { data: user, isPending } = useAuthQuery();
@@ -65,7 +66,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
   const handleButton = () => {
     createGameMutation.mutate({
       roomId: room.id,
-      totalRounds: gameSettings.totalRounds
+      totalRounds: gameSettings.totalRounds,
+      level: room.level.name
     });
   };
 
@@ -80,7 +82,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
   return (
     <div className="w-full  text-black ">
       <div className="p-4 border-2 flex justify-center items-center flex-col ">
-        <h1 className="text-2xl yellow-300 p-4">Room {room?.link}</h1>
+        <h1 className="text-2xl yellow-300 p-4">Room </h1>
         <h2 className="text-2xl p-2">
           Are you ready{" "}
           <span className="text-yellow-500">{user?.username}</span>?
@@ -121,7 +123,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
                         }));
                         updateRoomMutation.mutate({
                           link: room?.link,
-                          level: gameSettings.level
+                          level: Level.Easy
                         });
                       }}
                     >
@@ -135,13 +137,13 @@ const Page = ({ params }: { params: { slug: string } }) => {
                     <div
                       className="p-4  bg-red-500 cursor-pointer text-center rounded-md"
                       onClick={() => {
-                        setGameSettings((prev) => ({
-                          ...prev,
-                          level: Level.Hard
-                        }));
+                        // setGameSettings((prev) => ({
+                        //   ...prev,
+                        //   level: Level.Hard
+                        // }));
                         updateRoomMutation.mutate({
                           link: room?.link,
-                          level: gameSettings.level
+                          level: Level.Hard
                         });
                       }}
                     >
@@ -158,13 +160,13 @@ const Page = ({ params }: { params: { slug: string } }) => {
               setActiveCard({ randomGame: false, landmarkGame: true });
               updateRoomMutation.mutate({
                 link: room?.link,
-                level: gameSettings.level
+                level: Level.Landmark
               });
             }}
             className={cn(
               "relative  h-96 w-48 ",
               activeCard.landmarkGame &&
-                "border-2 bg-yellow-300  backdrop-blur-sm  shadow-sm"
+                "border-2 border-yellow-300  backdrop-blur-sm  shadow-sm"
             )}
           >
             <Image
@@ -203,7 +205,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
         </div>
 
         <div className="text-black text-xl p-4">
-          Level: {gameSettings.level}
+          {!room?.level?.name && "Choose a "}Level: {room?.level?.name}
         </div>
         <UiButton
           disabled={createGameMutation.isPending}

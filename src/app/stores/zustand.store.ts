@@ -19,7 +19,7 @@ export const useRoundStore = create<State & Actions>((set) => ({
   setMarker: (data) => set((state) => ({ ...state, marker: data })),
   setLocation: (data) => set((state) => ({ ...state, location: data })),
   clearState: () =>
-    set({ marker: { lat: 0, lng: 0 }, location: { lat: 0, lng: 0 } }) // Implement clearState action
+    set({ marker: { lat: 0, lng: 0 }, location: { lat: 0, lng: 0 } })
 }));
 
 type State2 = {
@@ -34,5 +34,5 @@ type Actions2 = {
 export const useUserAvatarStore = create<State2 & Actions2>((set) => ({
   avatarPath: "",
   setAvatarPath: (data) => set((state) => ({ ...state, avatarPath: data })),
-  clearState: () => set({ avatarPath: "" }) // Implement clearState action
+  clearState: () => set({ avatarPath: "" })
 }));

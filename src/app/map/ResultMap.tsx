@@ -1,6 +1,12 @@
 "use client";
-import React, { Dispatch, FC, SetStateAction } from "react";
-import calculateDistance from "../utils/calculateDistance";
+import React, {
+  Dispatch,
+  FC,
+  SetStateAction,
+  useEffect,
+  useState
+} from "react";
+import { calculateDistance } from "../utils/calculateDistance";
 import { useRoundStore } from "../stores/zustand.store";
 import { Map, Marker } from "@vis.gl/react-google-maps";
 import { UiButton } from "../components/ui/ui-button";
@@ -33,15 +39,38 @@ export const ResultMap: FC<ResultMapProps> = ({
   });
 
   const { data: game } = useGameQuery(link);
+  const [distance, setDistance] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (marker && location) {
+      const dist = calculateDistance(marker, location);
+      setDistance(dist);
+    }
+  }, [marker, location]);
 
   if (isAnswered) {
     return (
       <div className="absolute top-0 w-full h-full left-0 z-20">
-        <Map defaultCenter={location} defaultZoom={7} disableDefaultUI={true}>
+        <Map
+          defaultCenter={{
+            lat: (location.lat + marker.lat) / 2.0,
+            lng: (location.lng + marker.lng) / 2.0
+          }}
+          defaultZoom={7}
+          disableDefaultUI={true}
+        >
           <Marker position={marker} />
           <Marker position={location} />
         </Map>
-        <div className="absolute bottom-0 h-12  bg-white w-full flex items-center justify-center">
+        <div className="absolute bottom-0 h-24  bg-white w-full flex  gap-8 items-center justify-center">
+          <div className=" text-black">
+            <h2>
+              distance:{" "}
+              {distance !== null
+                ? `${distance.toFixed(4)} km`
+                : "Calculating..."}
+            </h2>
+          </div>
           <UiButton
             variant="secondary"
             onClick={() => {

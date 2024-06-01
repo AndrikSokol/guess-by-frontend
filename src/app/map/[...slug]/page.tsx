@@ -11,7 +11,7 @@ import { ResultMap } from "../ResultMap";
 import { useGameQuery } from "@/app/hooks/useGameQuery";
 import { UiSpinner } from "@/app/components/ui/ui-spinner";
 
-const Page = ({ params }: { params: { slug: string } }) => {
+const Game = ({ params }: { params: { slug: string } }) => {
   const link = params.slug[0];
 
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
@@ -30,10 +30,10 @@ const Page = ({ params }: { params: { slug: string } }) => {
     return (
       <div className="relative flex h-screen">
         <aside className="absolute w-32  z-10 bg-opacity-45 h-screen bg-black">
-          <div>
+          <div className="text-xl text-center py-4">
             round: {game.round}/{game.totalRounds}
           </div>
-          <h2 className="w-full  py-10 text-center">Score</h2>
+          <h2 className="w-full  py-10 text-xl text-center">Score</h2>
           {isScorePending && (
             <UiSpinner className="w-12 h-12 text-yellow-300" />
           )}
@@ -51,7 +51,9 @@ const Page = ({ params }: { params: { slug: string } }) => {
           <StreetView places={game.locations} link={link} />{" "}
         </div>
 
-        <DefaultMap link={link} setIsAnswered={setIsAnswered} />
+        {!isAnswered && (
+          <DefaultMap link={link} setIsAnswered={setIsAnswered} />
+        )}
         <ResultMap
           isAnswered={isAnswered}
           setIsAnswered={setIsAnswered}
@@ -61,4 +63,4 @@ const Page = ({ params }: { params: { slug: string } }) => {
     );
 };
 
-export default Page;
+export default Game;
