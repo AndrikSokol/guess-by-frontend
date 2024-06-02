@@ -1,16 +1,16 @@
 "use client";
 
-import { Aside } from "../components/aside";
-
-export default function DashboardLayout({
-  children
+export default function AsideLayout({
+  children,
+  aside
 }: {
   children: React.ReactNode;
+  aside: React.ReactNode;
 }) {
   return (
-    <main className="flex">
-      <Aside></Aside>
+    <>
+      {aside}
       {children}
-    </main>
+    </>
   );
 }

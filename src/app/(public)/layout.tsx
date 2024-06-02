@@ -1,11 +1,14 @@
-"use client";
-
-import { Aside } from "../components/aside";
-
 export default function AsideLayout({
-  children
+  children,
+  aside
 }: {
   children: React.ReactNode;
+  aside: React.ReactNode;
 }) {
-  return <main>{children}</main>;
+  return (
+    <>
+      {aside}
+      {children}
+    </>
+  );
 }
