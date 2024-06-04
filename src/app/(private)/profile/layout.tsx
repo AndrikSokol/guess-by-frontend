@@ -55,7 +55,7 @@ export default function DashboardLayout({
 
   return (
     <div className="flex w-full">
-      <div className="border-r-2 border-yellow-300">
+      <div className=" sm:pl-[176px]  border-r-2 border-yellow-300">
         <div className="relative p-4 ">
           <h1 className="text-black text-3xl text-center">{user?.username}</h1>
           {user?.profile.avatar || path?.url ? (

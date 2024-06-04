@@ -7,10 +7,12 @@ import { RegisterForm } from "../components/registerForm";
 
 import { About } from "../components/about";
 import ForgotPasswordModal from "./forgot-password/forgot-password";
+import { AsideBar } from "../components/aside";
 
 export default function Home() {
   return (
     <main className="flex   bg-amber-200  bg-transparent w-screen  h-screen ">
+      <AsideBar />
       <ForgotPasswordModal />
       <UiModal
         left={

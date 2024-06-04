@@ -1,6 +1,6 @@
 "use client";
 
-import { Aside } from "@/app/components/aside";
+import { Aside, AsideBar } from "@/app/components/aside";
 import UiPagination from "@/app/components/ui/ui-pagination";
 import { UiSpinner } from "@/app/components/ui/ui-spinner";
 import { useLeaderboardQuery } from "@/app/hooks/useLeaderboardQuery";
@@ -90,6 +90,7 @@ const Page = () => {
 
   return (
     <div className="flex">
+      <AsideBar />
       <div className="flex sm:pl-[176px]  w-screen justify-between mx-auto pt-4 flex-col">
         <table className=" mx-auto min-w-[80%]  divide-y divide-gray-200 text-black rounded-md">
           <thead>

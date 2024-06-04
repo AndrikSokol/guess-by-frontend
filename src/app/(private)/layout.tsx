@@ -1,15 +1,15 @@
 "use client";
 
+import { AsideBar } from "../components/aside";
+
 export default function AsideLayout({
-  children,
-  aside
+  children
 }: {
   children: React.ReactNode;
-  aside: React.ReactNode;
 }) {
   return (
     <>
-      {aside}
+      <AsideBar />
       {children}
     </>
   );
