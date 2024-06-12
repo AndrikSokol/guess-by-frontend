@@ -1,20 +1,15 @@
 "use client";
 
+import { Position } from "@/app/types/position.type";
 import { useStreetViewPanorama } from "@vis.gl/react-google-maps";
-import { FC, useEffect } from "react";
-
-interface IPosition {
-  lat: number;
-  lng: number;
-}
+import { FC } from "react";
 
 export const StreetViewPanorama: FC<{
   divContainer: HTMLDivElement | null;
-  position: IPosition;
+  position: Position;
   pov: { heading: number; pitch: number };
   containerClassName?: string;
-}> = ({ divContainer, position, pov, containerClassName }) => {
-  // Include options in destructuring
+}> = ({ divContainer, position, pov }) => {
   useStreetViewPanorama({
     divElement: divContainer,
     position,

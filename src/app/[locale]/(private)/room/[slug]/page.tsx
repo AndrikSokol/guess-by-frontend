@@ -13,6 +13,9 @@ import "rc-slider/assets/index.css";
 import Image from "next/image";
 import { cn } from "@/app/utils/cn";
 import { useIntl } from "react-intl";
+import { ToastContainer, toast } from "react-toastify";
+import { toastOptions } from "@/app/utils/toastOptions";
+import "react-toastify/dist/ReactToastify.css";
 
 export enum Level {
   Easy = "easy",
@@ -22,7 +25,7 @@ export enum Level {
 }
 
 type GameSettings = {
-  level: Level;
+  level: Level | undefined;
   totalRounds: number;
 };
 
@@ -44,9 +47,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
   });
   const [opacity, setOpacity] = useState(true);
   const [gameSettings, setGameSettings] = useState<GameSettings>({
-    level: Level.Easy,
     totalRounds: 5
-  });
+  } as GameSettings);
 
   useEffect(() => {
     setOpacity((prev) => !prev);
@@ -61,7 +63,11 @@ const Page = ({ params }: { params: { slug: string } }) => {
   const createGameMutation = useMutation({
     mutationFn: (data: any) => Api.createGame(data),
     onSuccess: (data) => {
-      router.push(`${ROUTES.MAP}/${data.link}`);
+      router.push(`${ROUTES.GAME}/${data.link}`);
+    },
+
+    onError: () => {
+      toast.error("Choose a level", toastOptions);
     }
   });
 
@@ -69,6 +75,26 @@ const Page = ({ params }: { params: { slug: string } }) => {
     queryKey: ["room"],
     queryFn: () => Api.getRoom(link)
   });
+
+  useEffect(() => {
+    setGameSettings((prev) => ({ ...prev, level: room?.level?.name }));
+    setActiveCard(() => {
+      if (room?.level?.name === "easy" || room?.level?.name === "hard")
+        return {
+          randomGame: true,
+          landmarkGame: false
+        };
+      else if (room?.level?.name === "landmark")
+        return {
+          randomGame: false,
+          landmarkGame: true
+        };
+      return {
+        randomGame: false,
+        landmarkGame: false
+      };
+    });
+  }, [room]);
 
   const handleButton = () => {
     createGameMutation.mutate({
@@ -88,6 +114,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
 
   return (
     <div className="w-full  text-black md:pl-[176px] ">
+      <ToastContainer />
       <div className="pb-4 flex justify-center items-center flex-col ">
         <h1 className="text-2xl yellow-300 p-4">
           {t.formatMessage({ id: "room" })}{" "}
@@ -136,7 +163,10 @@ const Page = ({ params }: { params: { slug: string } }) => {
                 <ul className="flex flex-col gap-4">
                   <li className=" text-white">
                     <div
-                      className=" text-center py-[6px]   hover:bg-green-700 duration-200   bg-green-500 cursor-pointer rounded-md"
+                      className={cn(
+                        "text-center py-[6px]   hover:bg-green-700 duration-200   bg-green-500 cursor-pointer rounded-md",
+                        room?.level?.name === Level.Easy && "bg-green-700"
+                      )}
                       onClick={() => {
                         setGameSettings((prev) => ({
                           ...prev,
@@ -148,15 +178,22 @@ const Page = ({ params }: { params: { slug: string } }) => {
                         });
                       }}
                     >
-                      <span className="text-xl">
-                        {t.formatMessage({ id: "easy" })}
+                      <span className="text-xl flex justify-center items-center">
+                        {updateRoomMutation.isPending ? (
+                          <UiSpinner className="text-white w-6 h-6" />
+                        ) : (
+                          `${t.formatMessage({ id: "easy" })}`
+                        )}
                       </span>
                     </div>
                   </li>
 
                   <li className=" text-white">
                     <div
-                      className="py-[6px]  bg-red-500  duration-200   hover:bg-red-700 cursor-pointer text-center rounded-md"
+                      className={cn(
+                        "py-[6px]  bg-red-500  duration-200   hover:bg-red-700 cursor-pointer text-center rounded-md",
+                        room?.level?.name === Level.Hard && "bg-red-700"
+                      )}
                       onClick={() => {
                         updateRoomMutation.mutate({
                           link: room?.link,
@@ -164,9 +201,12 @@ const Page = ({ params }: { params: { slug: string } }) => {
                         });
                       }}
                     >
-                      <span className="text-xl">
-                        {" "}
-                        {t.formatMessage({ id: "hard" })}
+                      <span className="text-xl flex justify-center items-center">
+                        {updateRoomMutation.isPending ? (
+                          <UiSpinner className="text-white w-6 h-6" />
+                        ) : (
+                          `${t.formatMessage({ id: "hard" })}`
+                        )}
                       </span>
                     </div>
                   </li>

@@ -23,7 +23,7 @@ export const UserInfo = () => {
   if (user && !isError) {
     return (
       <>
-        <div className=" flex flex-col justify-center items-center">
+        <div className=" flex flex-col justify-center items-center hover:scale-[103%] duration-100 ">
           <Link className="cursor-pointer rounded-full" href={ROUTES.PROFILE}>
             {user?.profile?.avatar ? (
               <Image

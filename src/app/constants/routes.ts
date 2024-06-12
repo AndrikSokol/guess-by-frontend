@@ -2,7 +2,7 @@ export const enum ROUTES {
   HOME = "/",
   LOGIN = "/login",
   SIGNUP = "/signup",
-  MAP = "/map",
+  GAME = "/game",
   ROOM = "/room",
   PROFILE = "/profile",
   PROFILE_STATISTICS = "/profile/statistics",

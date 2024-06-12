@@ -15,6 +15,7 @@ import { Api } from "@/app/api/api";
 import { useGameQuery } from "@/app/hooks/useGameQuery";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/app/constants/routes";
+import { useIntl } from "react-intl";
 
 type ResultMapProps = {
   isAnswered: boolean;
@@ -27,7 +28,7 @@ export const ResultMap: FC<ResultMapProps> = ({
   link
 }) => {
   const { marker, location, clearState } = useRoundStore();
-
+  const t = useIntl();
   const queryClient = useQueryClient();
   const router = useRouter();
   const gameMutation = useMutation({
@@ -65,10 +66,8 @@ export const ResultMap: FC<ResultMapProps> = ({
         <div className="absolute bottom-0 h-24  bg-white w-full flex  gap-8 items-center justify-center">
           <div className=" text-black">
             <h2>
-              distance:{" "}
-              {distance !== null
-                ? `${distance.toFixed(4)} km`
-                : "Calculating..."}
+              {t.formatMessage({ id: "distance" })} {distance?.toFixed(4)}{" "}
+              {t.formatMessage({ id: "km" })}
             </h2>
           </div>
           <UiButton
@@ -83,7 +82,9 @@ export const ResultMap: FC<ResultMapProps> = ({
               clearState();
             }}
           >
-            {game.round === game.totalRounds ? "Go main" : "Next"}
+            {game.round === game.totalRounds
+              ? `${t.formatMessage({ id: "go_main_page" })}`
+              : `${t.formatMessage({ id: "next_round" })}`}
           </UiButton>
         </div>
       </div>

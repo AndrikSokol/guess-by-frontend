@@ -2,9 +2,7 @@
 
 import React, { useEffect, useState, useCallback, FC } from "react";
 import { IPlace } from "@/app/types/place.interface";
-
-import { StreetViewPanorama } from "./StreetViewPanorama";
-
+import { StreetViewPanorama } from "./street-view-panorama";
 import { useGameQuery } from "@/app/hooks/useGameQuery";
 import { UiPageSpinner } from "@/app/components/ui/ui-page-spinner";
 
@@ -12,11 +10,6 @@ type StreetViewProps = {
   places: IPlace[];
   link: string;
 };
-
-interface IPosition {
-  lat: number;
-  lng: number;
-}
 
 export const StreetView: FC<StreetViewProps> = ({ places, link }) => {
   const [divContainer, setDivContainer] = useState<HTMLDivElement | null>(null);
@@ -44,12 +37,11 @@ export const StreetView: FC<StreetViewProps> = ({ places, link }) => {
      
     `;
     document.head.appendChild(style);
-
-    // Cleanup on unmount
     return () => {
       document.head.removeChild(style);
     };
   }, []);
+
   if (isPending) {
     return <UiPageSpinner />;
   }
@@ -57,7 +49,7 @@ export const StreetView: FC<StreetViewProps> = ({ places, link }) => {
     <div className="h-screen" ref={divRef}>
       {divContainer && (
         <StreetViewPanorama
-          key={`street-view-${currentPlace.id}`} // Change key when round changes
+          key={`street-view-${currentPlace.id}`}
           divContainer={divContainer}
           position={{ lat: currentPlace.lat, lng: currentPlace.lng }}
           pov={{

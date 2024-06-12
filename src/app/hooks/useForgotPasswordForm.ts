@@ -28,6 +28,7 @@ export const useForgotPasswordForm = () => {
     register,
     isSuccess: forgotPasswordMutation.isSuccess,
     isPending: forgotPasswordMutation.isPending,
+    message: forgotPasswordMutation?.data?.message,
     responseError: (
       forgotPasswordMutation.error as AxiosError<AxiosErrorResponse>
     )?.response?.data?.message

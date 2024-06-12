@@ -13,6 +13,10 @@ import { useUserAvatarStore } from "@/app/stores/zustand.store";
 import { UiSpinner } from "@/app/components/ui/ui-spinner";
 import Image from "next/image";
 import { useIntl } from "react-intl";
+import { toastOptions } from "@/app/utils/toastOptions";
+import { AxiosError } from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Inputs = {
   firstName?: string;
@@ -29,7 +33,14 @@ const Page = () => {
   const queryClient = useQueryClient();
 
   const updateProfileMutation = useMutation({
-    mutationFn: (data) => Api.updateProfile(data)
+    mutationFn: (data) => Api.updateProfile(data),
+
+    onSuccess: () => {
+      toast.success("information was updated!", toastOptions);
+    },
+    onError: (error: AxiosError) => {
+      toast.error(error.response?.data?.message, toastOptions);
+    }
   });
 
   useEffect(() => {
@@ -49,12 +60,14 @@ const Page = () => {
     setValue("firstName", user?.firstName);
     setValue("lastName", user?.lastName);
     setValue("email", user?.email);
-    setValue("birthdate", user?.profile?.birthdate);
+    if (user?.profile?.birthdate)
+      setValue("birthdate", user?.profile?.birthdate);
   }, [user]);
 
   return (
     <>
       <div className=" px-8  w-full flex   text-black ">
+        <ToastContainer />
         <div className="p-4 w-full ">
           <h1 className="text-black text-2xl py-4 ">
             {t.formatMessage({ id: "profile" })}
@@ -143,7 +156,11 @@ const Page = () => {
             />
             <div className="py-2 flex w-full ">
               <UiButton className="w-full" type="submit" variant="primary">
-                {t.formatMessage({ id: "update" })}
+                {updateProfileMutation.isPending ? (
+                  <UiSpinner className="w-6 h-6 text-white" />
+                ) : (
+                  `${t.formatMessage({ id: "update" })}`
+                )}
               </UiButton>
             </div>
           </form>

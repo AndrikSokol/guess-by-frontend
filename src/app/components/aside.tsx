@@ -91,7 +91,7 @@ export const AsideBar = () => {
           href={ROUTES.HOME}
         >
           {
-            <BelarusIcon className=" text-white w-20 h-20  rounded-full overflow-hidden" />
+            <BelarusIcon className=" text-white w-20 h-20  rounded-full overflow-hidden hover:scale-[104%] duration-100 " />
           }
         </Link>
       )}

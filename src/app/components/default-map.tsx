@@ -1,31 +1,15 @@
 "use client";
+
 import { Dispatch, SetStateAction, useState } from "react";
 import { Map, Marker } from "@vis.gl/react-google-maps";
 import { useMutation } from "@tanstack/react-query";
 import { Api } from "@/app/api/api";
-
 import { useRoundStore } from "@/app/stores/zustand.store";
 import { UiButton } from "@/app/components/ui/ui-button";
-
 import { useGameQuery } from "@/app/hooks/useGameQuery";
-
-interface IMarker {
-  lat: number;
-  lng: number;
-}
-
-const mapStyles = [
-  {
-    featureType: "poi",
-    elementType: "labels",
-    stylers: [{ visibility: "off" }]
-  },
-  {
-    featureType: "road",
-    elementType: "labels",
-    stylers: [{ visibility: "off" }]
-  }
-];
+import { mapStyles } from "@/app/constants/map-styles";
+import { IMarker } from "@/app/types/marker.interface";
+import { useIntl } from "react-intl";
 
 const positionMap = { lat: 53.8625801, lng: 28.166626 };
 
@@ -39,7 +23,7 @@ export const DefaultMap = ({
   const [marker, setMarkers] = useState<IMarker>({} as IMarker);
   const { setLocation, setMarker } = useRoundStore();
   const { data: game, isPending } = useGameQuery(link);
-
+  const t = useIntl();
   const addScoreMutation = useMutation({
     mutationFn: (dto: any) => Api.addScore(dto)
   });
@@ -78,7 +62,7 @@ export const DefaultMap = ({
         className=" absolute bottom-0 left-0"
         onClick={(e) => handleConfirmButton(e)}
       >
-        Confirm
+        {t.formatMessage({ id: "confirm" })}
       </UiButton>
     </div>
   );

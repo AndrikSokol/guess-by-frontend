@@ -1,19 +1,21 @@
 "use client";
 
-import { DefaultMap } from "../DefaultMap";
-import { StreetView } from "../StreetView";
-import { Timer } from "../Timer";
+import { DefaultMap } from "../../../../components/default-map";
+import { StreetView } from "../../../../components/street-view";
+import { Timer } from "../../../../components/timer";
 import { useQuery } from "@tanstack/react-query";
 import { Api } from "@/app//api/api";
 import { UiPageSpinner } from "@/app/components/ui/ui-page-spinner";
-import { useEffect, useState } from "react";
-import { ResultMap } from "../ResultMap";
+import { useState } from "react";
+import { ResultMap } from "../../../../components/result-map";
 import { useGameQuery } from "@/app/hooks/useGameQuery";
 import { UiSpinner } from "@/app/components/ui/ui-spinner";
+import { useIntl } from "react-intl";
 
 const Game = ({ params }: { params: { slug: string } }) => {
   const link = params.slug[0];
 
+  const t = useIntl();
   const [isAnswered, setIsAnswered] = useState<boolean>(false);
 
   const { data: game, isPending } = useGameQuery(link);
@@ -28,12 +30,16 @@ const Game = ({ params }: { params: { slug: string } }) => {
 
   if (game)
     return (
-      <div className="relative flex h-screen">
+      <div className="relative z-20 flex h-screen">
         <aside className="absolute w-32  z-10 bg-opacity-45 h-screen bg-black">
           <div className="text-xl text-center py-4">
-            round: {game.round}/{game.totalRounds}
+            {t.formatMessage({ id: "round" }).split(" ")[1]} {game.round}/
+            {game.totalRounds}
           </div>
-          <h2 className="w-full  py-10 text-xl text-center">Score</h2>
+          <h2 className="w-full  py-10 text-xl text-center">
+            {" "}
+            {t.formatMessage({ id: "score" })}
+          </h2>
           {isScorePending && (
             <UiSpinner className="w-12 h-12 text-yellow-300" />
           )}
@@ -41,7 +47,10 @@ const Game = ({ params }: { params: { slug: string } }) => {
             scores.map((score, index: number) => {
               return (
                 <div key={index} className="flex gap-2  text-sm ">
-                  <div>round: {index + 1}</div> <div>{score.score}</div>
+                  <div>
+                    {t.formatMessage({ id: "round" }).split(" ")[1]} {index + 1}
+                  </div>{" "}
+                  <div>{score.score}</div>
                 </div>
               );
             })}

@@ -5,15 +5,8 @@ import { useForgotPasswordForm } from "../hooks/useForgotPasswordForm";
 import Image from "next/image";
 
 export const ForgotPasswordForm = () => {
-  const {
-    register,
-    errors,
-    handleSubmit,
-    t,
-    isPending,
-    isSuccess,
-    responseError
-  } = useForgotPasswordForm();
+  const { register, errors, handleSubmit, t, isPending, isSuccess, message } =
+    useForgotPasswordForm();
 
   return (
     <div className="flex flex-col items-center">
@@ -52,7 +45,7 @@ export const ForgotPasswordForm = () => {
             `${t.formatMessage({ id: "send" })}`
           )}
         </UiButton>
-        {isSuccess && <h2 className="text-black">{responseError}</h2>}
+        {isSuccess && <h2 className="text-black">{message}</h2>}
       </form>
     </div>
   );

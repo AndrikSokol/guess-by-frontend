@@ -37,6 +37,7 @@ export default async function RootLayout({
   const intlAbout = await getIntl(locale, "about");
   const intlProfile = await getIntl(locale, "profile");
   const intlRoom = await getIntl(locale, "room");
+  const intlGame = await getIntl(locale, "game");
   return (
     <html lang={locale}>
       <body className={oswald.className}>
@@ -49,7 +50,8 @@ export default async function RootLayout({
               ...intlAuthSignup.messages,
               ...intlAbout.messages,
               ...intlProfile.messages,
-              ...intlRoom.messages
+              ...intlRoom.messages,
+              ...intlGame.messages
             }}
             locale={intlAuthCommon.locale}
           >

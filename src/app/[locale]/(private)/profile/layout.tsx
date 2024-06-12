@@ -89,8 +89,8 @@ export default function DashboardLayout({
           ) : (
             <AccountIcon className=" w-60 h-60 sm:w-72 sm:h-72 text-black bg-white rounded-full" />
           )}
-          {segments[1] == "profile" && segments.length == 2 && (
-            <label className="absolute bottom-2 right-2 rounded-full p-2 cursor-pointer flex items-center justify-center border-2 border-yellow-300 hover:border-yellow-600 duration-150">
+          {segments.includes("profile") && (
+            <label className="absolute  z-40 bottom-2 right-2 rounded-full p-2 cursor-pointer flex items-center justify-center border-2 border-yellow-300 hover:border-yellow-600 duration-150">
               <input type="file" className="hidden" onChange={uploadPhoto} />
               <UploadIcon className="w-8 h-8 text-black" />
             </label>
