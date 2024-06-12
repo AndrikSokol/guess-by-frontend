@@ -1,6 +1,6 @@
 "use client";
 
-import { UserInfo } from "./userInfo";
+import { UserInfo } from "./user-info";
 import { LogoutButton } from "./logout-button";
 import { useEffect, useRef, useState } from "react";
 import { RightArrowIcon } from "../assets/right-arrow-icon";
@@ -9,16 +9,20 @@ import LanguageChanger from "./language-changer";
 import { UiLink } from "./ui/ui-link";
 import { useIntl } from "react-intl";
 import { ROUTES } from "../constants/routes";
+import BelarusIcon from "../assets/belarus-icon";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export const AsideBar = () => {
   const intl = useIntl();
+  const pathname = usePathname();
   const [windowSize, setWindowSize] = useState<number>(0);
   const [isShowAside, setIsShowAside] = useState<boolean>(false);
   const [startX, setStartX] = useState<number | null>(null);
   const asideRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (windowSize > 768) {
+    if (windowSize > 640) {
       setIsShowAside(true);
     }
   }, [windowSize]);
@@ -74,13 +78,23 @@ export const AsideBar = () => {
     <aside
       ref={asideRef}
       className={cn(
-        "w-44 h-screen absolute z-20 top-0 bottom-0 bg-opacity-25 bg-black duration-200 ",
-        !isShowAside && "translate-x-[-180px] "
+        "w-44  fixed z-20 top-0 bottom-0 bg-opacity-50  bg-blue-950 backdrop-blur duration-200 ",
+        !isShowAside && "translate-x-[-180px]  "
       )}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
+      {pathname.length > 3 && (
+        <Link
+          className="flex items-center justify-center pt-2"
+          href={ROUTES.HOME}
+        >
+          {
+            <BelarusIcon className=" text-white w-20 h-20  rounded-full overflow-hidden" />
+          }
+        </Link>
+      )}
       <div
         className={cn(
           "absolute top-2/3 right-[-28px] flex sm:hidden bg-white delay-300 duration-200 translate-x-0 rounded-full cursor-pointer ",

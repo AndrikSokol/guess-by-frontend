@@ -1,19 +1,19 @@
 "use client";
 
 import { Api } from "@/app/api/api";
-import { AsideBar } from "@/app/components/aside";
 import { UiButton } from "@/app/components/ui/ui-button";
 import { UiSpinner } from "@/app/components/ui/ui-spinner";
 import { UiTextField } from "@/app/components/ui/ui-text-field";
 import { ROUTES } from "@/app/constants/routes";
 import { useCheckForResetPasswordQuery } from "@/app/hooks/useCheckForResetPasswordQuery";
+import { toastOptions } from "@/app/utils/toastOptions";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useIntl } from "react-intl";
-import { Bounce, ToastContainer, toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 type Inputs = {
@@ -32,32 +32,13 @@ const Page = ({ params }: { params: { slug: string } }) => {
     mutationFn: (data: any) =>
       Api.resetPassword({ ...data, id: params.slug[0], token: params.slug[1] }),
     onSuccess: () => {
-      toast.success("Password was changed!", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-        toastId: "123"
-      });
+      toast.success("Password was changed!", toastOptions);
+      setTimeout(() => {
+        router.push(ROUTES.HOME);
+      }, 2000);
     },
     onError: (error: AxiosError) => {
-      toast.error(error.response?.data?.message, {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-        toastId: "123"
-      });
+      toast.error(error.response?.data?.message, toastOptions);
     }
   });
 
@@ -69,26 +50,16 @@ const Page = ({ params }: { params: { slug: string } }) => {
   } = useForm<Inputs>();
 
   if (isError) {
-    router.push(ROUTES.HOME);
+    router.replace(ROUTES.HOME);
   }
+
   if (user) {
     return (
       <div className="flex ">
-        <ToastContainer
-          position="top-right"
-          autoClose={2000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="light"
-        />
+        <ToastContainer />
         <div className="w-full ">
-          <div className=" my-28 mx-auto   max-w-[450px] flex justify-center  items-center flex-col w-full text-black">
-            <h1 className="text-xl py-2">
+          <div className=" my-28 mx-auto  px-[10px]  max-w-[450px] flex justify-center  items-center flex-col w-full text-black">
+            <h1 className="text-xl py-2 text-center">
               {t.formatMessage({ id: "you_try_to_change_password_for" })}{" "}
               {user.email}
             </h1>
@@ -98,8 +69,11 @@ const Page = ({ params }: { params: { slug: string } }) => {
                 if (data.newPassword != data.confirmNewPassword) {
                   setError("confirmNewPassword", {
                     type: "custom",
-                    message: "password not equal"
+                    message: `${t.formatMessage({
+                      id: "password_not_equal"
+                    })}`
                   });
+                  return;
                 }
 
                 const { confirmNewPassword, ...dto } = data;
@@ -110,13 +84,22 @@ const Page = ({ params }: { params: { slug: string } }) => {
                 className="mt-2"
                 error={errors.newPassword?.message}
                 inputProps={{
-                  placeholder: "set new password",
+                  placeholder: `${t.formatMessage({
+                    id: "write_new_password"
+                  })}`,
                   type: "password",
                   ...register("newPassword", {
-                    required: true,
+                    required: {
+                      value: true,
+                      message: `${t.formatMessage({
+                        id: "required_error"
+                      })}`
+                    },
                     minLength: {
                       value: 2,
-                      message: "password must be more than 2 char"
+                      message: `${t.formatMessage({
+                        id: "password_length_error"
+                      })}`
                     }
                   })
                 }}
@@ -125,10 +108,17 @@ const Page = ({ params }: { params: { slug: string } }) => {
                 className="mt-2"
                 error={errors.confirmNewPassword?.message}
                 inputProps={{
-                  placeholder: "confirm new password",
+                  placeholder: `${t.formatMessage({
+                    id: "confirm_new_password"
+                  })}`,
                   type: "password",
                   ...register("confirmNewPassword", {
-                    required: true
+                    required: {
+                      value: true,
+                      message: `${t.formatMessage({
+                        id: "required_error"
+                      })}`
+                    }
                   })
                 }}
               />

@@ -72,9 +72,9 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="flex w-full">
-      <div className=" sm:pl-[176px]  border-r-2 border-yellow-300">
-        <div className="relative p-4 ">
+    <div className="sm:pl-[176px] flex w-full flex-col md:flex-row">
+      <div className=" md:border-r-2 border-yellow-300">
+        <div className="relative flex justify-center items-center flex-col p-4 ">
           <h1 className="text-black text-3xl text-center">{user?.username}</h1>
           {user?.profile.avatar || path?.url ? (
             <Image
@@ -87,7 +87,7 @@ export default function DashboardLayout({
               alt="profile-icon"
             />
           ) : (
-            <AccountIcon className=" w-72 h-72 text-black bg-white rounded-full" />
+            <AccountIcon className=" w-60 h-60 sm:w-72 sm:h-72 text-black bg-white rounded-full" />
           )}
           {segments[1] == "profile" && segments.length == 2 && (
             <label className="absolute bottom-2 right-2 rounded-full p-2 cursor-pointer flex items-center justify-center border-2 border-yellow-300 hover:border-yellow-600 duration-150">
@@ -97,7 +97,7 @@ export default function DashboardLayout({
           )}
         </div>
 
-        <div className="flex flex-col gap-2 p-4  border-t-2 border-yellow-300">
+        <div className="p-4    border-t-2 border-yellow-300">
           {PROFILE_LINK.map((link) => {
             const isActive =
               (link.name === "profile" && segments.length == 2) ||
@@ -107,7 +107,7 @@ export default function DashboardLayout({
                 key={link.id}
                 href={link.href}
                 className={cn(
-                  `text-yellow-500 hover:text-yellow-700 text-2xl `,
+                  `text-yellow-500 hover:text-yellow-700 text-2xl  block mb-2`,
                   isActive && "text-black"
                 )}
               >

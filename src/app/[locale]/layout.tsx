@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { Oswald } from "next/font/google";
 import "@/app/globals.css";
-import { AppProvider } from "@components/appProvider";
+import { AppProvider } from "@/app/components/app-provider";
 import i18nConfig from "../../../i18nConfig";
 import getIntl from "@/app/intl";
 import { ServerIntlProvider } from "@/app/components/server-intl-provider";
+import { cookies } from "next/headers";
 
 const oswald = Oswald({ subsets: ["latin"] });
 
@@ -20,14 +21,15 @@ export function generateStaticParams() {
 export default async function RootLayout({
   children,
   aside,
-  params: { locale },
   modal
 }: {
   children: React.ReactNode;
-  params: { locale: string };
+
   aside: React.ReactNode;
   modal: React.ReactNode;
 }) {
+  const cookie = cookies();
+  const locale = cookie.get("NEXT_LOCALE")?.value || "en";
   const intlAside = await getIntl(locale, "aside");
   const intlAuthCommon = await getIntl(locale, "common");
   const intlAuthLogin = await getIntl(locale, "login-modal");
@@ -51,9 +53,9 @@ export default async function RootLayout({
             }}
             locale={intlAuthCommon.locale}
           >
-            <div>{aside}</div>
-            <div>{modal}</div>
-            <div>{children}</div>
+            {aside}
+            {modal}
+            {children}
           </ServerIntlProvider>
         </AppProvider>
       </body>

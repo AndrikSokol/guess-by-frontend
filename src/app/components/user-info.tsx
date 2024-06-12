@@ -7,25 +7,24 @@ import { useAuthQuery } from "../hooks/useAuthQuery";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { ROUTES } from "../constants/routes";
+import Link from "next/link";
 
 export const UserInfo = () => {
   const { data: user, isError } = useAuthQuery();
 
   const pathname = usePathname();
 
-  const isProfile = pathname.split("/")[1] === "profile";
-  const router = useRouter();
+  const isProfile = pathname.includes("profile");
 
-  if (isProfile) return;
+  const isAbout = pathname.includes("about");
+
+  if (isProfile || isAbout) return;
 
   if (user && !isError) {
     return (
       <>
         <div className=" flex flex-col justify-center items-center">
-          <div
-            className="cursor-pointer rounded-full"
-            onClick={() => router.push(ROUTES.PROFILE)}
-          >
+          <Link className="cursor-pointer rounded-full" href={ROUTES.PROFILE}>
             {user?.profile?.avatar ? (
               <Image
                 className=" rounded-full border-2 border-yellow-300 "
@@ -37,9 +36,9 @@ export const UserInfo = () => {
             ) : (
               <AccountIcon className="w-32 h-32" />
             )}
-          </div>
+          </Link>
 
-          <UiLink href="profile" className="text-2xl underline">
+          <UiLink href={ROUTES.PROFILE} className="text-2xl underline">
             {user?.username}
           </UiLink>
         </div>

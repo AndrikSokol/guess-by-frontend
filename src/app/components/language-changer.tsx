@@ -52,7 +52,7 @@ export default function LanguageChanger() {
       }}
       className="flex gap-2 items-center justify-center cursor-pointer"
     >
-      <PlanetIcon className="w-8 h-8  " />
+      <PlanetIcon className="w-8 h-8" />
       <div>{language.slice(0, 1).toUpperCase() + language.slice(1)}</div>
     </div>
   );

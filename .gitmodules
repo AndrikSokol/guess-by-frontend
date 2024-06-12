@@ -1,0 +1,3 @@
+[submodule "next-geo"]
+	path = next-geo
+	url = https://github.com/AndrikSokol/guess-by-frontend.git

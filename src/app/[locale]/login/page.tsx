@@ -1,6 +1,7 @@
-import { LoginForm } from "@/app/components/loginForm";
+import { LoginForm } from "@/app/components/login-form";
 import type { Metadata } from "next";
 import Image from "next/image";
+
 export const metadata: Metadata = {
   title: "Geo Game login",
   description: "login in system"

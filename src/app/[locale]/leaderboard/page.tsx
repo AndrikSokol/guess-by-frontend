@@ -6,7 +6,7 @@ import { useLeaderboardQuery } from "@/app/hooks/useLeaderboardQuery";
 import { Leaderboard } from "@/app/types/leaderboard.type";
 import { QueryLeaderboard } from "@/app/types/query-leaderboard.type";
 import { cn } from "@/app/utils/cn";
-import { Order } from "@/enums/Order.enum";
+import { Order } from "@/app/enums/Order.enum";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
@@ -90,7 +90,7 @@ const Page = () => {
 
   return (
     <div className="flex">
-      <div className="flex sm:pl-[176px]  w-screen justify-between mx-auto pt-4 flex-col">
+      <div className="flex sm:pl-[176px] px-[10px] w-screen justify-between mx-auto pt-4 flex-col">
         <table className=" mx-auto min-w-[80%]  divide-y divide-gray-200 text-black rounded-md">
           <thead>
             <tr>
@@ -98,7 +98,7 @@ const Page = () => {
                 (header: { key: string; name: string; id: number }) => (
                   <th
                     key={header.id}
-                    className="px-6 py-3 text-left text-lg font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
+                    className=" px-1 py-2 sm:px-6 sm:py-3  text-sm sm:text-lg font-medium text-gray-500 uppercase  cursor-pointer"
                     onClick={() => handleSort(header.key)}
                   >
                     {header.name}
@@ -145,7 +145,7 @@ const Page = () => {
                   <tr
                     key={user.userId}
                     className={cn(
-                      "h-14",
+                      "h-14 text-center text-lg whitespace-nowrap",
                       page === 1
                         ? cn(
                             index == 0 &&
@@ -158,19 +158,19 @@ const Page = () => {
                         : ""
                     )}
                   >
-                    <td className=" text-xl px-6 py-4 whitespace-nowrap">
+                    <td className=" px-2 py-1  sm:text-xl sm:px-6 sm:py-4">
                       {(page - 1) * query.take + index + 1}
                     </td>
-                    <td className=" text-xl px-6 py-4 whitespace-nowrap">
+                    <td className=" px-2 py-1  sm:text-xl sm:px-6 sm:py-4">
                       {user.username}
                     </td>
-                    <td className=" text-xl px-6 py-4 whitespace-nowrap">
+                    <td className=" px-2 py-1  sm:text-xl sm:px-6 sm:py-4">
                       {user.totalGames}
                     </td>
-                    <td className=" text-xl px-6 py-4 whitespace-nowrap">
+                    <td className=" px-2 py-1  sm:text-xl sm:px-6 sm:py-4">
                       {user.totalRounds}
                     </td>
-                    <td className="text-xl px-6 py-4 whitespace-nowrap">
+                    <td className=" px-2 py-1  sm:text-xl sm:px-6 sm:py-4">
                       {Number(user.totalTimeMinutes).toFixed(0)}
                     </td>
                   </tr>

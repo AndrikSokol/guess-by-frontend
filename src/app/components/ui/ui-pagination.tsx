@@ -45,8 +45,8 @@ const UiPagination: FC<UiPaginationProps> = ({
     );
 
     // Calculate the range of page numbers to display around the current page
-    const startPage = Math.max(2, page - 3);
-    const endPage = Math.min(pageCount - 1, page + 3);
+    const startPage = Math.max(2, page - 2);
+    const endPage = Math.min(pageCount - 1, page + 2);
 
     // Add the ellipsis before the first set of pages if needed
     if (startPage > 2) {

@@ -1,6 +1,6 @@
 import React from "react";
 import { UiModal } from "@/app/components/ui/ui-modal";
-import { LoginForm } from "@/app/components/loginForm";
+import { LoginForm } from "@/app/components/login-form";
 import Image from "next/image";
 
 const page = () => {

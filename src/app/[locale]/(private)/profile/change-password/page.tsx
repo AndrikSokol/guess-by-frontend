@@ -60,7 +60,7 @@ const Page = () => {
   const t = useIntl();
 
   return (
-    <div className="px-4 w-full">
+    <div className="px-4 w-full pb-8">
       <h1 className="text-black text-2xl p-4">
         {t.formatMessage({ id: "change_password" })}
       </h1>

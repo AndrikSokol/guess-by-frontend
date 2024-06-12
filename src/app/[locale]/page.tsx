@@ -1,4 +1,4 @@
-import { SplineScene } from "../components/SplineScene";
+import { SplineScene } from "../components/spline-scene";
 
 export default async function Home() {
   return (

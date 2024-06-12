@@ -1,17 +1,10 @@
 "use client";
 
 import React, { useEffect, useState, useCallback, FC } from "react";
-import {
-  APIProvider,
-  useMap,
-  useStreetViewPanorama,
-  Map
-} from "@vis.gl/react-google-maps";
 import { IPlace } from "@/app/types/place.interface";
-import { useRoundStore } from "@/app/stores/zustand.store";
+
 import { StreetViewPanorama } from "./StreetViewPanorama";
-import { useQuery } from "@tanstack/react-query";
-import { Api } from "@/app/api/api";
+
 import { useGameQuery } from "@/app/hooks/useGameQuery";
 import { UiPageSpinner } from "@/app/components/ui/ui-page-spinner";
 

@@ -1,4 +1,4 @@
-import { Order } from "@/enums/Order.enum";
+import { Order } from "@/app/enums/Order.enum";
 
 export type QueryLeaderboard = {
   order?: Order;
