@@ -1,3 +1,5 @@
+"use client";
+
 import { useLoginForm } from "../hooks/useLoginForm";
 import { EmailIcon } from "@/app/assets/email-icon";
 import { GoogleIcon } from "@/app/assets/google-icon";
@@ -9,11 +11,14 @@ import { UiSpinner } from "./ui/ui-spinner";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ROUTES } from "../constants/routes";
+import { useIntl } from "react-intl";
+import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
   const { register, isPending, isError, errors, handleSubmit, responseError } =
     useLoginForm();
-
+  const intl = useIntl();
+  const router = useRouter();
   if (isError && !isPending) {
     toast.error(responseError, {
       position: "top-right",
@@ -43,12 +48,14 @@ export const LoginForm = () => {
         pauseOnHover
         theme="light"
       />
-      <h1 className=" text-center text-3xl">Login</h1>
+      <h1 className=" text-center text-3xl">
+        {intl.formatMessage({ id: "login" })}
+      </h1>
       <UiTextField
         error={errors.email?.message}
         left={<EmailIcon className="h-6" />}
         inputProps={{
-          placeholder: "email",
+          placeholder: `${intl.formatMessage({ id: "email" })}`,
           type: "email",
           ...register("email", { required: true })
         }}
@@ -57,30 +64,36 @@ export const LoginForm = () => {
         error={errors.password?.message}
         left={<PasswordIcon className="h-6" />}
         inputProps={{
-          placeholder: "password",
+          placeholder: `${intl.formatMessage({ id: "password" })}`,
           type: "password",
           ...register("password", { required: true })
         }}
       />
       <Link
-        href={`${ROUTES.HOME}/?modal=forgot-password`}
+        href={`${ROUTES.FORGOT_PASSWORD}`}
         className=" inline-block underline"
       >
-        Forgot a password?
+        {intl.formatMessage({ id: "forgot_a_password" })}
       </Link>
 
       <UiButton variant="primary" type="submit" disabled={isPending}>
-        {isPending ? <UiSpinner className="w-8 h-8 text-white" /> : "Login"}
+        {isPending ? (
+          <UiSpinner className="w-8 h-8 text-white" />
+        ) : (
+          `${intl.formatMessage({ id: "login" })}`
+        )}
       </UiButton>
       <p className=" py-2  text-gray-500">
-        Don`t have account?{" "}
-        <Link href="/?modal=register" className=" underline text-black">
-          Sign up
+        {intl.formatMessage({ id: "dont_have_account" })}
+        <Link href={ROUTES.SIGNUP} className=" underline text-black">
+          {intl.formatMessage({ id: "sign_up" })}
         </Link>
       </p>
       <div className="py-4 flex  items-center justify-between">
         <div className=" border-b-[1px] border-gray-600 w-full"></div>
-        <div className="px-2    bg-white">Or</div>
+        <div className="px-2    bg-white">
+          {intl.formatMessage({ id: "or" })}
+        </div>
         <div className="border-b-[1px] border-gray-600 w-full"></div>
       </div>
       <div
@@ -91,7 +104,7 @@ export const LoginForm = () => {
         className="flex gap-4 items-center justify-center cursor-pointer border border-gray-600 rounded-md p-1  hover:border-gray-800 duration-300 hover:shadow-md"
       >
         <GoogleIcon />
-        <div>Sign in with google</div>
+        <div> {intl.formatMessage({ id: "sign_in_with_google" })}</div>
       </div>
     </form>
   );

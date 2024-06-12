@@ -1,10 +1,13 @@
+"use client";
+
 import React from "react";
 import { UiButton } from "./ui/ui-button";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthQuery } from "../hooks/useAuthQuery";
-import { useQueryClient } from "@tanstack/react-query";
+import { useIntl } from "react-intl";
 
 export const LogoutButton = () => {
+  const intl = useIntl();
   const { isPending, logout } = useLogout();
 
   const { data: user } = useAuthQuery();
@@ -16,7 +19,7 @@ export const LogoutButton = () => {
         disabled={isPending}
         onClick={() => logout()}
       >
-        Logout
+        {intl.formatMessage({ id: "logout" })}
       </UiButton>
     );
   }

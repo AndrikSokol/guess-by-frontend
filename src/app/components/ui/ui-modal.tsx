@@ -1,54 +1,44 @@
 "use client";
 
 import { ROUTES } from "@/app/constants/routes";
-import { useRouter, useSearchParams } from "next/navigation";
-import { ReactNode, useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { ReactNode } from "react";
 
 export function UiModal({
   content,
-  left,
-  type
+  left
 }: {
   content?: ReactNode;
   left?: ReactNode;
-  type?: "login" | "register" | "about" | "forgot-password";
 }) {
-  const searchParams = useSearchParams();
-  const [active, setActive] = useState<boolean>(false);
   const router = useRouter();
+  const pathname = usePathname();
+  const isSignup =
+    pathname.split("/")[2] === "signup" || pathname.split("/")[1] === "signup";
 
-  useEffect(() => {
-    if (searchParams.get("modal") === type) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-  }, [searchParams]);
-
-  if (active) {
-    return (
-      <div
-        id="bg-modal"
-        onClick={(event) => {
-          console.log();
-          if (event.target.id == "bg-modal") {
-            setActive(false);
-            router.replace(ROUTES.HOME);
+  return (
+    <div
+      id="bg-modal"
+      onClick={(event) => {
+        if (event.target.id == "bg-modal") {
+          if (isSignup) {
+            router.push(ROUTES.HOME);
+            router.refresh();
+          } else {
+            router.back();
           }
-        }}
-        className="  text-black fixed  h-full w-full backdrop-blur-sm  shadow-sm bg-black  bg-opacity-5 flex justify-center items-center  "
+        }
+      }}
+      className="  z-20 text-black fixed  h-full w-full backdrop-blur-sm  shadow-sm bg-black  bg-opacity-5 flex justify-center items-center  "
+    >
+      <div
+        className={`w-full ${
+          left ? " max-w-[900px]" : "max-w-[550px]"
+        } flex mx-[10px] max-sm:flex-col bg-white gap-2 rounded-md`}
       >
-        <div
-          className={`w-full ${
-            left ? " max-w-[900px]" : "max-w-[550px]"
-          } flex max-sm:flex-col bg-white gap-2 rounded-md`}
-        >
-          {left}
-          <div className="bg-white p-6 rounded-md w-full  ">{content}</div>
-        </div>
+        {left}
+        <div className="bg-white p-6 rounded-md w-full  ">{content}</div>
       </div>
-    );
-  }
-
-  return null;
+    </div>
+  );
 }

@@ -21,7 +21,7 @@ export const useLoginForm = () => {
     mutationFn: (dto) => Api.login(dto),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["auth"] });
-      router.push(ROUTES.HOME);
+      router.back();
     }
   });
 
